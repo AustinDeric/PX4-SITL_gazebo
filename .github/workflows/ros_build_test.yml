@@ -1,0 +1,31 @@
+name: ROS Build Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {rosdistro: 'melodic'}
+          - {rosdistro: 'noetic'}
+          - {rosdistro: 'galactic'}
+    steps:
+    - uses: actions/checkout@v3
+    - name: submodule update
+      run: git submodule update --init --recursive
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        build-args: |
+          ROS_DISTRO=${{matrix.config.rosdistro}}
