@@ -2,10 +2,8 @@ name: ROS Build Test
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - '*'
+    - 'test/fix-ros-build-CI'
+
 jobs:
   build:
     runs-on: ubuntu-latest
